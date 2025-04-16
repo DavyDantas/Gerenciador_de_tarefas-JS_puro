@@ -4,32 +4,55 @@ class Task {
         this.description = description
         this.status = false
     }
+}
 
-    finishTask() {
-        this.status = true
+let tasks = []
+
+function createTask(name, description) {
+    const task = new Task(name, description)
+    tasks = [...tasks, task]
+    console.log(`Tarefa ${task.name} criada com sucesso.`)
+}
+
+function filterTasks(name) {
+    try{
+        const filter = tasks.filter(taks => taks.name === name ) 
+        console.log("\nTarefas encontradas:\n")
+        filter.forEach(({ name, description, status }, index) => {
+            console.log(`[${index}] Tarefa: ${name} \n${description} \nStatus: ${status ? "Concluída" : "Pendente"}`);
+            console.log("-----------------------------------");
+        });
+    }
+    catch (error) {
+        console.error("Erro ao filtrar tarefas:", error)
     }
 }
 
-const tasks = []
-
-function createTask(name, description) {
-    const task = new Task("name", "description")
-    listTasks.push(task)
+function listTasks() {
+    tasks.forEach(({ name, description, status }, index) => {
+        console.log(`[${index}] Tarefa: ${name} \n${description} \nStatus: ${status ? "Concluída" : "Pendente"}`);
+        console.log("-----------------------------------");
+    });
 }
 
-let filterTasks = (name) => {
-    const filter = listTasks.filter(taks => taks.name === name ) 
-    return filter
+function finishTask(id) {
+    const task = tasks[id]
+    if (task) {
+        task.status = true
+        console.log(`\nTarefa [${tasks.findIndex(idTask => idTask === task)}]: ${task.name} -> concluída.\n`)
+    } else {
+        console.log(`\nTarefa ${name} não encontrada.\n`)
+    }
 }
 
-const listTasks = () => {
-    const ul = document.getElementById("lista")
-    ul.innerHTML = ""
 
-    tasks.forEach((liTask) => {
-        const liTask = document.createElement('li')
-        liTask.textontent = `${liTask.name}: ${liTask.description}`;
-        ul.appendChild(liTask);
-    })
-}
+// Exemplo de uso
+createTask("Estudar", "Estudar JavaScript")
+createTask("Fazer trabalho", "trabalho de Python")
+createTask("Prova", "Prova dia 15/05")
+createTask("Estudar", "Estudar C++")
+createTask("Estudar", "Estudar C#")
 
+listTasks()
+finishTask(0)
+filterTasks("Estudar")
